@@ -1,0 +1,56 @@
+{
+  "name": "color-contrast-checker",
+  "version": "0.1.0",
+  "description": "This is an accessibility validator based on WCAG 2.0 standard for checking the color contrast.",
+  "main": "src/color-contrast-checker.js",
+  "dependencies": {
+    "amdefine": ">=0.1.0"
+  },
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Qambar/color-contrast-checker.git"
+  },
+  "keywords": [
+    "ajax",
+    "cache",
+    "cachemanager",
+    "javascript"
+  ],
+  "author": {
+    "name": "Qambar Raza",
+    "email": "qambar@ymail.com",
+    "url": "http://www.qambarraza.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Qambar/color-contrast-checker/issues"
+  },
+  "homepage": "https://github.com/Qambar/color-contrast-checker#readme",
+  "gitHead": "45b65d45fc281ba90529183ff412299a7c1379d0",
+  "_id": "color-contrast-checker@0.1.0",
+  "_shasum": "a43bd41523775450e6f31ce38e64b44312157325",
+  "_from": "color-contrast-checker@0.1.0",
+  "_npmVersion": "2.13.1",
+  "_nodeVersion": "0.12.0",
+  "_npmUser": {
+    "name": "qambar",
+    "email": "qambar@ymail.com"
+  },
+  "dist": {
+    "shasum": "a43bd41523775450e6f31ce38e64b44312157325",
+    "tarball": "http://registry.npmjs.org/color-contrast-checker/-/color-contrast-checker-0.1.0.tgz"
+  },
+  "maintainers": [
+    {
+      "name": "qambar",
+      "email": "qambar@ymail.com"
+    }
+  ],
+  "_resolved": "http://registry.npmjs.org/color-contrast-checker/-/color-contrast-checker-0.1.0.tgz"
+}
