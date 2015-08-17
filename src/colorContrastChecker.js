@@ -4,17 +4,12 @@ define(function () {
 
     "use strict";
 
-    var ColorContrastChecker = function() {
-        this.setOptions(options);
+    var ColorContrastChecker = function(fontSize) {
+        this.fontSize = fontSize;
     };
 
     ColorContrastChecker.prototype = {
-        options : {
-            font_size: 14
-        },
-        setOptions : function (options) {
-            this.options = $.extend({}, this.options, options);
-        },
+        fontSize: 14,
         rgbClass : {
             toString: function() {
                 return '<r: ' + this.r +
@@ -133,7 +128,7 @@ define(function () {
             return ratio;
         },
         verifyContrastRatio : function(ratio) {
-            var lFontSize = this.options.font_size;
+            var lFontSize = this.font_size;
 
             var resultsClass = {
                 toString: function() {
