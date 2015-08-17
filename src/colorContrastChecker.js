@@ -8,92 +8,159 @@ define(function () {
     };
 
     ColorContrastChecker.prototype = {
+        options : {
+            font_size: 14
+        },
+        setOptions : function (options) {
+            this.options = $.extend({}, this.options, options);
+        },
+        rgbClass : {
+            toString: function() {
+                return '<r: ' + this.r +
+                    ' g: ' + this.g +
+                    ' b: ' + this.b +
+                    ' >';
+            }
+        },
         isValidColorCode : function (hex){
             var regColorcode = /^(#)?([0-9a-fA-F]{6})([0-9a-fA-F]{6})?$/;
             return regColorcode.test(hex);
         },
-        getRelativeLuminance : function (foreground, background){
-            if(!foreground || !background)
+        check : function (colorA, colorB){
+            if(!colorA || !colorB)
                 return false;
 
             var color1, color2;
             var l1; /* higher value */
             var l2; /* lower value */
-            var contrast;
-            var l1R, l1G, l1B, l2R, l2G, l2B;
-            var txtSizeOp;
 
-            color1 = this.removeHash(foreground);
-            color2 = this.removeHash(background);
 
-            l1R = parseInt("0x"+color1.substr(0,2), 16)/255;
-            if (l1R <= 0.03928) {
-                l1R = l1R/12.92;
-            } else {
-                l1R = Math.pow(((l1R+0.055)/1.055),2.4);
+            if (!this.isValidColorCode(colorA)) {
+                throw new Exception("Invalid Color :" + colorA);
             }
-            l1G = parseInt("0x"+color1.substr(2,2), 16)/255;
-            if (l1G <= 0.03928) {
-                l1G = l1G/12.92;
-            } else {
-                l1G = Math.pow(((l1G+0.055)/1.055),2.4);
+
+            if (!this.isValidColorCode(colorB)) {
+                throw new Exception("Invalid Color :" + colorB);
             }
-            l1B = parseInt("0x"+color1.substr(4,2), 16)/255;
-            if (l1B <= 0.03928) {
-                l1B = l1B/12.92;
-            } else {
-                l1B = Math.pow(((l1B+0.055)/1.055),2.4);
-            }
-            l2R = parseInt("0x"+color2.substr(0,2), 16)/255;
-            if (l2R <= 0.03928) {
-                l2R = l2R/12.92;
-            } else {
-                l2R = Math.pow(((l2R+0.055)/1.055),2.4);
-            }
-            l2G = parseInt("0x"+color2.substr(2,2), 16)/255;
-            if (l2G <= 0.03928) {
-                l2G = l2G/12.92;
-            } else {
-                l2G = Math.pow(((l2G+0.055)/1.055),2.4);
-            }
-            l2B = parseInt("0x"+color2.substr(4,2), 16)/255;
-            if (l2B <= 0.03928) {
-                l2B = l2B/12.92;
-            } else {
-                l2B = Math.pow(((l2B+0.055)/1.055),2.4);
-            }
+
+            color1 = this.getRGBFromHex(colorA);
+            color2 = this.getRGBFromHex(colorB);
+
+            var l1RGB = this.calculateLRGB(color1);
+            var l2RGB = this.calculateLRGB(color2);
+
             /* where L is luminosity and is defined as */
-            l1 = (0.2126*l1R) + (0.7152*l1G) + (0.0722*l1B); /* using linearised R, G, and B value */
-            l2 = (0.2126*l2R) + (0.7152*l2G) + (0.0722*l2B); /* using linearised R, G, and B value */
-            /* and L2 is the lower value. */
-            l1 = l1 + 0.05;
-            l2 = l2 + 0.05;
-            if (l1 < l2) {
-              var temp = l1;
-              l1 = l2;
-              l2 = temp;
+            l1 = this.calculateLuminance(l1RGB);
+            l2 = this.calculateLuminance(l2RGB);
+
+            return this.verifyContrastRatio(this.getContrastRatio(l1, l2));
+        },
+        calculateLuminance: function(lRGB) {
+            return (0.2126 * lRGB.r) + (0.7152 * lRGB.g) + (0.0722 * lRGB.b);
+        },
+        isLevelAA : function(colorA, colorB) {
+            var result = this.check(colorA, colorB);
+            return result.WCAG_AA;
+        },
+        getRGBFromHex : function(color) {
+
+            var rgb = Object.create(this.rgbClass),
+                rVal,
+                gVal,
+                bVal;
+
+            if (typeof color !== 'string') {
+                throw new Error('must use string');
             }
 
-            return {'l1': l1, 'l2': l2};
-        },
-        isLevelAA : function(foreground, background) {
+            rVal = parseInt(color.slice(1, 3), 16);
+            gVal = parseInt(color.slice(3, 5), 16);
+            bVal = parseInt(color.slice(5, 7), 16);
 
-            var luminance = this.getRelativeLuminance(foreground, background);
+            rgb.r = rVal;
+            rgb.g = gVal;
+            rgb.b = bVal;
 
-            var result = luminance.l1/luminance.l2;
-            result = result.toFixed(1);
+            return rgb;
+        },
+        calculateSRGB : function(rgb) {
+            var sRGB = Object.create(this.rgbClass),
+                key;
 
-            if (result >= 3)
-                return true;
-            else
-                return false;
+            for (key in rgb) {
+                if (rgb.hasOwnProperty(key)) {
+                    sRGB[key] = parseFloat((rgb[key] / 255), 10);
+                }
+            }
+
+            return sRGB;
         },
-        removeHash : function (string) {
-            if(string)  return string.replace("#","");
+        calculateLRGB: function (rgb) {
+            var sRGB = this.calculateSRGB(rgb);
+            var lRGB = Object.create(this.rgbClass),
+                key,
+                val = 0;
+
+            for (key in sRGB) {
+                if (sRGB.hasOwnProperty(key)) {
+                    val = parseFloat(sRGB[key], 10);
+                    if (val <= 0.03928) {
+                        lRGB[key] = (val / 12.92);
+                    } else {
+                        lRGB[key] = Math.pow(((val + 0.055) / 1.055), 2.4);
+                    }
+                }
+            }
+
+            return lRGB;
         },
-        addHash : function (string) {
-            if(string)  return "#" + string;
+        getContrastRatio : function(lumA, lumB) {
+            var ratio,
+                lighter,
+                darker;
+
+            if (lumA >= lumB) {
+                lighter = lumA;
+                darker = lumB;
+            } else {
+                lighter = lumB;
+                darker = lumA;
+            }
+
+            ratio = (lighter + 0.05) / (darker + 0.05);
+
+            return ratio;
+        },
+        verifyContrastRatio : function(ratio) {
+            var lFontSize = this.options.font_size;
+
+            var resultsClass = {
+                toString: function() {
+                    return '< WCAG-AA: ' + ((this.WCAG_AA) ? 'pass' : 'fail') +
+                        ' WCAG-AAA: ' + ((this.WCAG_AAA) ? 'pass' : 'fail') +
+                        ' >';
+                }
+            };
+            var WCAG_REQ_RATIO_AA_LG = 3.0,
+                WCAG_REQ_RATIO_AA_SM = 4.5,
+                WCAG_REQ_RATIO_AAA_LG = 4.5,
+                WCAG_REQ_RATIO_AAA_SM = 7.0,
+                WCAG_FONT_CUTOFF = 18;
+
+            var results = Object.create(resultsClass),
+                fontSize = lFontSize || 14;
+
+            if (fontSize >= WCAG_FONT_CUTOFF) {
+                results.WCAG_AA = (ratio >= WCAG_REQ_RATIO_AA_LG);
+                results.WCAG_AAA = (ratio >= WCAG_REQ_RATIO_AAA_LG);
+            } else {
+                results.WCAG_AA = (ratio >= WCAG_REQ_RATIO_AA_SM);
+                results.WCAG_AAA = (ratio >= WCAG_REQ_RATIO_AAA_SM);
+            }
+
+            return results;
         }
+
     };
 
     return ColorContrastChecker;
