@@ -36,11 +36,11 @@ define(function () {
 
 
             if (!this.isValidColorCode(colorA)) {
-                throw new Exception("Invalid Color :" + colorA);
+                throw new Error("Invalid Color :" + colorA);
             }
 
             if (!this.isValidColorCode(colorB)) {
-                throw new Exception("Invalid Color :" + colorB);
+                throw new Error("Invalid Color :" + colorB);
             }
 
             color1 = this.getRGBFromHex(colorA);
