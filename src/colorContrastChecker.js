@@ -5,6 +5,7 @@ define(function () {
     "use strict";
 
     var ColorContrastChecker = function() {
+        this.setOptions(options);
     };
 
     ColorContrastChecker.prototype = {
