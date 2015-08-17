@@ -1,4 +1,4 @@
-# Color Contast Checker v1.0.0
+# Color Contast Checker
 
 An accessibility checker tool for validating the color contrast based on WCAG 2.0 standard.
 
