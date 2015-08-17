@@ -16,9 +16,17 @@
     <input type="text/javascript" id="color2" value="#FFFFFF" />
     <br />
 
+    <label>Font Size</label>
+    <input type="text/javascript" id="fontsize" value="14" />
+    <br />
+
     <hr />
-    <label>Result</label>
-    <input type="text/javascript" id="result" />
+    <label>Level AA</label> :
+    <span id="result-AA"></span>
+
+    <br/>
+    <label>Level AAA</label> :
+    <span id="result-AAA"></span>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.19/require.js"></script>
     
@@ -35,7 +43,7 @@
         require(['jquery','ColorContrastChecker'], function ($, ColorContrastChecker) {
             var ccc = new ColorContrastChecker();
 
-            $('#color1, #color2').on('change', function() {
+            $('#color1, #color2, #fontsize').on('change', function() {
                 updateResult(ccc);
             });
             updateResult(ccc);
@@ -44,12 +52,16 @@
         function updateResult(ccc) {
             var color1 = $('#color1').val();
             var color2 = $('#color2').val();
-            
-            if (ccc.isLevelAA(color1, color2)) {
-                $('#result').val("Valid Level AA");
-            } else {
-                $('#result').val("Invalid Contrast");
-            }
+            var fontSize = $('#fontsize').val();
+
+            var resultAA = ccc.isLevelAA(color1, color2, fontSize) ? "Valid" : "Not Valid";
+            var resultAAA = ccc.isLevelAAA(color1, color2, fontSize) ? "Valid" : "Not Valid";
+
+
+            $('#result-AA').text(resultAA);
+            $('#result-AAA').text(resultAAA);
+
+
         };
         
     -->

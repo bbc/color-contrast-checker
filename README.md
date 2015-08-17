@@ -33,12 +33,87 @@ var ccc = new ColorContrastChecker();
 var color1 = "#FFFFFF";
 var color2 = "#000000;
 
-if (ccc.isLevelAA(color1, color2)) {
+if (ccc.isLevelAA(color1, color2, 14)) {
     alert("Valid Level AA");
 } else {
     alert("Invalid Contrast");
 }
 
+```
+
+Advanced Usage:
+--------------
+
+You can pass pairs and get results:
+
+
+```
+    var pairs = [
+        {
+            'colorA': '#000000',
+            'colorB': '#000000',  // All should fail
+            'fontSize': 14
+        },
+        {
+            'colorA': '#000000',
+            'colorB': '#FFFFFF',  //All should pass
+            'fontSize': 14
+        },
+        {
+            'colorA': '#000000',
+            'colorB': '#848484',  //AAA should fail
+            'fontSize': 14
+        },
+        {
+            'colorA': '#000000',
+            'colorB': '#848484',  //All should pass (because of font)
+            'fontSize': 19
+        },
+        {
+            'colorA': '#000000',
+            'colorB': '#757575',  //AA should pass AAA should fail
+            'fontSize': 14
+        },
+        {
+            'colorA': '#000000',
+            'colorB': '#656565',  //All should fail
+            'fontSize': 14
+        }
+    ];
+
+    var results = ccc.checkPairs(pairs);
+
+```
+
+The result will look like this:
+
+```
+[
+    {
+        'WCAG_AA' : false,
+        'WCAG_AAA': false
+    },
+    {
+        'WCAG_AA' : true,
+        'WCAG_AAA': true
+    },
+    {
+        'WCAG_AA' : true,
+        'WCAG_AAA': false
+    },
+    {
+        'WCAG_AA' : true,
+        'WCAG_AAA': true
+    },
+    {
+        'WCAG_AA' : true,
+        'WCAG_AAA': false
+    },
+    {
+        'WCAG_AA' : false,
+        'WCAG_AAA': false
+    }
+]
 ```
 
 Its sweet and simple completely based on http://www.w3.org/TR/WCAG20/#contrast-ratiodef.

@@ -4,8 +4,7 @@ define(function () {
 
     "use strict";
 
-    var ColorContrastChecker = function(fontSize) {
-        this.fontSize = fontSize;
+    var ColorContrastChecker = function() {
     };
 
     ColorContrastChecker.prototype = {
@@ -56,12 +55,40 @@ define(function () {
 
             return this.verifyContrastRatio(this.getContrastRatio(l1, l2));
         },
+        checkPairs: function (pairs) {
+            var results = [];
+
+            for (var i in pairs) {
+                var pair = pairs[i];
+                if (typeof pair.fontSize !== 'undefined') {
+                    results.push(
+                        this.check(
+                            pair.colorA,
+                            pair.colorB,
+                            pair.fontSize
+                        )
+                    );
+                } else {
+                    results.push(
+                        this.check(
+                            pair.colorA,
+                            pair.colorB
+                        )
+                    );
+                }
+            }
+            return results;
+        },
         calculateLuminance: function(lRGB) {
             return (0.2126 * lRGB.r) + (0.7152 * lRGB.g) + (0.0722 * lRGB.b);
         },
-        isLevelAA : function(colorA, colorB) {
-            var result = this.check(colorA, colorB);
+        isLevelAA : function(colorA, colorB, fontSize) {
+            var result = this.check(colorA, colorB, fontSize);
             return result.WCAG_AA;
+        },
+        isLevelAAA : function(colorA, colorB, fontSize) {
+            var result = this.check(colorA, colorB, fontSize);
+            return result.WCAG_AAA;
         },
         getRGBFromHex : function(color) {
 
@@ -133,7 +160,7 @@ define(function () {
             return ratio;
         },
         verifyContrastRatio : function(ratio) {
-            var lFontSize = this.font_size;
+
 
             var resultsClass = {
                 toString: function() {
@@ -149,7 +176,7 @@ define(function () {
                 WCAG_FONT_CUTOFF = 18;
 
             var results = Object.create(resultsClass),
-                fontSize = lFontSize || 14;
+                fontSize = this.fontSize || 14;
 
             if (fontSize >= WCAG_FONT_CUTOFF) {
                 results.WCAG_AA = (ratio >= WCAG_REQ_RATIO_AA_LG);
