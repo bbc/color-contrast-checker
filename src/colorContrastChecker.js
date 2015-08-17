@@ -18,14 +18,16 @@ define(function () {
                     ' >';
             }
         },
-        setFontSize: function(fontSize) {
-          this.fontSize = fontSize;
-        },
         isValidColorCode : function (hex){
             var regColorcode = /^(#)?([0-9a-fA-F]{6})([0-9a-fA-F]{6})?$/;
             return regColorcode.test(hex);
         },
-        check : function (colorA, colorB){
+        check : function (colorA, colorB, fontSize){
+
+            if (typeof fontSize !== 'undefined') {
+                this.fontSize = fontSize;
+            }
+
             if(!colorA || !colorB)
                 return false;
 
