@@ -1,6 +1,6 @@
 {
   "name": "color-contrast-checker",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "This is an accessibility validator based on WCAG 2.0 standard for checking the color contrast.",
   "main": "src/color-contrast-checker.js",
   "dependencies": {
@@ -10,7 +10,7 @@
     "example": "example"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --reporter spec"
   },
   "repository": {
     "type": "git",
@@ -55,5 +55,9 @@
       "email": "qambar@ymail.com"
     }
   ],
-  "_resolved": "http://registry.npmjs.org/color-contrast-checker/-/color-contrast-checker-1.2.0.tgz"
+  "_resolved": "http://registry.npmjs.org/color-contrast-checker/-/color-contrast-checker-1.2.0.tgz",
+  "devDependencies": {
+    "chai": "^4.1.0",
+    "mocha": "^3.4.2"
+  }
 }

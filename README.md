@@ -2,7 +2,10 @@
 
 An accessibility checker tool for validating the color contrast based on WCAG 2.0 standard.
 
-The formula (L1/L2) for contrast is based on [ISO-9241-3] and [ANSI-HFES-100-1988] standards as described here : http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
+The formula (L1/L2) for contrast is based on [ISO-9241-3] and [ANSI-HFES-100-1988] standards as described here : 
+
+http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
+http://www.w3.org/TR/WCAG20/#contrast-ratiodef
 
 Installation:
 ------------
@@ -116,4 +119,10 @@ The result will look like this:
 ]
 ```
 
-Its sweet and simple completely based on http://www.w3.org/TR/WCAG20/#contrast-ratiodef.
+## Tests
+
+  `npm test`
+
+## Contributing
+
+In lieu of a formal style guide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code.

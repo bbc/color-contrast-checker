@@ -1,11 +1,28 @@
-if (typeof define !== 'function') { var define = require('amdefine')(module) }
+'use strict';
 
-define(function () {
+/**
+ * Color Contast Checker
+ * An accessibility checker tool for validating the color contrast based on WCAG 2.0 standard.
+ * var ccc = new ColorContrastChecker();
 
-    "use strict";
+ * var color1 = "#FFFFFF";
+ * var color2 = "#000000;
 
-    var ColorContrastChecker = function() {
-    };
+ * if (ccc.isLevelAA(color1, color2, 14)) {
+ *     alert("Valid Level AA");
+ * } else {
+ *     alert("Invalid Contrast");
+ * }
+ */
+
+var amdefine = false;
+if (typeof define !== 'function')
+    var define = require('amdefine')(module, require),
+        amdefine = true;
+
+define(function (require, exports, module) {
+
+    var ColorContrastChecker = function() {};
 
     ColorContrastChecker.prototype = {
         fontSize: 14,
