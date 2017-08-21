@@ -34,43 +34,49 @@ define(function (require, exports, module) {
                     ' >';
             }
         },
-        isValidColorCode : function (hex){
-            var regColorcode = /^(#)?([0-9a-fA-F]{6})([0-9a-fA-F]{6})?$/;
-            return regColorcode.test(hex);
+        isValidSixDigitColorCode: function (hex){
+            var regSixDigitColorcode = /^(#)?([0-9a-fA-F]{6})([0-9a-fA-F]{6})?$/;
+            return regSixDigitColorcode.test(hex);
         },
-        check : function (colorA, colorB, fontSize){
+        isValidThreeDigitColorCode: function (hex){
+            var regThreeDigitColorcode = /^(#)?([0-9a-fA-F]{3})([0-9a-fA-F]{3})?$/;
+            return regThreeDigitColorcode.test(hex);
+        },
+        isValidColorCode : function (hex){
+            return this.isValidSixDigitColorCode(hex) || this.isValidThreeDigitColorCode(hex);
+        },
+        convertColorToSixDigit: function (hex) {
+          return '#' + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3];
+        },
+        hexToLuminance: function (color) {
+            if (!this.isValidColorCode(color)) {
+                throw new Error("Invalid Color :" + color);
+            }
 
+            if (this.isValidThreeDigitColorCode(color)) {
+              color = this.convertColorToSixDigit(color);
+            }
+
+            color = this.getRGBFromHex(color);
+
+            var LRGB = this.calculateLRGB(color);
+
+            return this.calculateLuminance(LRGB);
+        },
+        check: function (colorA, colorB, fontSize) {
             if (typeof fontSize !== 'undefined') {
                 this.fontSize = fontSize;
             }
 
-            if(!colorA || !colorB)
+            if(!colorA || !colorB) {
                 return false;
-
-            var color1, color2;
-            var l1; /* higher value */
-            var l2; /* lower value */
-
-
-            if (!this.isValidColorCode(colorA)) {
-                throw new Error("Invalid Color :" + colorA);
             }
 
-            if (!this.isValidColorCode(colorB)) {
-                throw new Error("Invalid Color :" + colorB);
-            }
+            var l1 = this.hexToLuminance(colorA); /* higher value */
+            var l2 = this.hexToLuminance(colorB); /* lower value */
+            var contrastRatio = this.getContrastRatio(l1, l2);
 
-            color1 = this.getRGBFromHex(colorA);
-            color2 = this.getRGBFromHex(colorB);
-
-            var l1RGB = this.calculateLRGB(color1);
-            var l2RGB = this.calculateLRGB(color2);
-
-            /* where L is luminosity and is defined as */
-            l1 = this.calculateLuminance(l1RGB);
-            l2 = this.calculateLuminance(l2RGB);
-
-            return this.verifyContrastRatio(this.getContrastRatio(l1, l2));
+            return this.verifyContrastRatio(contrastRatio);
         },
         checkPairs: function (pairs) {
             var results = [];
