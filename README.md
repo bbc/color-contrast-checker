@@ -21,7 +21,7 @@ or using package.json
   ..
   "devDependencies": {
     ..
-    "color-contrast-checker": "1.0.0"
+    "color-contrast-checker": "1.3.0"
   }
 }
 ```
