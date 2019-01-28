@@ -1,6 +1,6 @@
 {
   "name": "color-contrast-checker",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "This is an accessibility validator based on WCAG 2.0 standard for checking the color contrast.",
   "main": "src/color-contrast-checker.js",
   "dependencies": {
@@ -58,7 +58,7 @@
   ],
   "_resolved": "http://registry.npmjs.org/color-contrast-checker/-/color-contrast-checker-1.2.0.tgz",
   "devDependencies": {
-    "chai": "^4.1.0",
+    "chai": "^4.2.0",
     "eslint": "^5.12.1",
     "mocha": "^5.2.0"
   }
