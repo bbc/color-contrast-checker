@@ -39,11 +39,14 @@ define(function (require, exports, module) {
             return regSixDigitColorcode.test(hex);
         },
         isValidThreeDigitColorCode: function (hex){
-            var regThreeDigitColorcode = /^(#)?([0-9a-fA-F]{3})([0-9a-fA-F]{3})?$/;
+            var regThreeDigitColorcode = /^(#)?([0-9a-fA-F]{3})?$/;
             return regThreeDigitColorcode.test(hex);
         },
         isValidColorCode : function (hex){
             return this.isValidSixDigitColorCode(hex) || this.isValidThreeDigitColorCode(hex);
+        },
+        isValidRatio : function (ratio){
+            return (typeof ratio === 'number')
         },
         convertColorToSixDigit: function (hex) {
           return '#' + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3];
@@ -77,6 +80,9 @@ define(function (require, exports, module) {
             var contrastRatio = this.getContrastRatio(l1, l2);
 
             if (typeof customRatio !== 'undefined') {
+                if (!this.isValidRatio(customRatio)) {
+                    return false;
+                }
                 return this.verifyCustomContrastRatio(contrastRatio, customRatio);
             } else {
                 return this.verifyContrastRatio(contrastRatio);
@@ -122,7 +128,8 @@ define(function (require, exports, module) {
             return result.WCAG_AAA; 
         },
         isLevelCustom : function(colorA, colorB, ratio) {
-            
+            var result = this.check(colorA, colorB, void 0, ratio);
+            return result.customRatio;
         },
         getRGBFromHex : function(color) {
 
@@ -234,7 +241,6 @@ define(function (require, exports, module) {
             var results = Object.create(resultsClass)
 
             results.customRatio = (inputRatio >= checkRatio);
-
             return results;
         }
 
