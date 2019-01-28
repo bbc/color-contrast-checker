@@ -33,7 +33,7 @@ define(function () {
             }
         },
         isValidSixDigitColorCode: function (hex){
-            var regSixDigitColorcode = /^(#)?([0-9a-fA-F]{6})([0-9a-fA-F]{6})?$/;
+            var regSixDigitColorcode = /^(#)?([0-9a-fA-F]{6})?$/;
             return regSixDigitColorcode.test(hex);
         },
         isValidThreeDigitColorCode: function (hex){
