@@ -63,7 +63,7 @@ define(function (require, exports, module) {
 
             return this.calculateLuminance(LRGB);
         },
-        check: function (colorA, colorB, fontSize) {
+        check: function (colorA, colorB, fontSize, customRatio) {
             if (typeof fontSize !== 'undefined') {
                 this.fontSize = fontSize;
             }
@@ -76,9 +76,14 @@ define(function (require, exports, module) {
             var l2 = this.hexToLuminance(colorB); /* lower value */
             var contrastRatio = this.getContrastRatio(l1, l2);
 
-            return this.verifyContrastRatio(contrastRatio);
+            if (typeof customRatio !== 'undefined') {
+                return this.verifyCustomContrastRatio(contrastRatio, customRatio);
+            } else {
+                return this.verifyContrastRatio(contrastRatio);
+            }
+            
         },
-        checkPairs: function (pairs) {
+        checkPairs: function (pairs, customRatio) {
             var results = [];
 
             for (var i in pairs) {
@@ -88,14 +93,17 @@ define(function (require, exports, module) {
                         this.check(
                             pair.colorA,
                             pair.colorB,
-                            pair.fontSize
+                            pair.fontSize,
+                            customRatio
                         )
                     );
                 } else {
                     results.push(
                         this.check(
                             pair.colorA,
-                            pair.colorB
+                            pair.colorB,
+                            void 0,
+                            customRatio
                         )
                     );
                 }
@@ -111,7 +119,10 @@ define(function (require, exports, module) {
         },
         isLevelAAA : function(colorA, colorB, fontSize) {
             var result = this.check(colorA, colorB, fontSize);
-            return result.WCAG_AAA;
+            return result.WCAG_AAA; 
+        },
+        isLevelCustom : function(colorA, colorB, ratio) {
+            
         },
         getRGBFromHex : function(color) {
 
@@ -208,6 +219,21 @@ define(function (require, exports, module) {
                 results.WCAG_AA = (ratio >= WCAG_REQ_RATIO_AA_SM);
                 results.WCAG_AAA = (ratio >= WCAG_REQ_RATIO_AAA_SM);
             }
+
+            return results;
+        },
+        verifyCustomContrastRatio : function(inputRatio, checkRatio) {
+
+            var resultsClass = {
+                toString: function() {
+                    return '< Custom Ratio: ' + ((this.customRatio) ? 'pass' : 'fail') +
+                        '  >';
+                }
+            };
+
+            var results = Object.create(resultsClass)
+
+            results.customRatio = (inputRatio >= checkRatio);
 
             return results;
         }
