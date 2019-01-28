@@ -10,7 +10,8 @@
     "example": "example"
   },
   "scripts": {
-    "test": "mocha --reporter spec"
+    "test": "mocha --reporter spec",
+    "lint": "eslint test"
   },
   "repository": {
     "type": "git",
@@ -58,6 +59,7 @@
   "_resolved": "http://registry.npmjs.org/color-contrast-checker/-/color-contrast-checker-1.2.0.tgz",
   "devDependencies": {
     "chai": "^4.1.0",
+    "eslint": "^5.12.1",
     "mocha": "^3.4.2"
   }
 }
