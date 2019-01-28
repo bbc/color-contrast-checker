@@ -1,7 +1,7 @@
 'use strict';
 
 var expect  = require('chai').expect;
-var ColorContrastChecker = require('color-contrast-checker');
+var ColorContrastChecker = require('../src/color-contrast-checker');
 var ccc = new ColorContrastChecker();
 
 describe('Three Digit Color Code Lengths', function() {
