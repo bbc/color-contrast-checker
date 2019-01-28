@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 /**
  * Color Contast Checker
@@ -15,12 +15,10 @@
  * }
  */
 
-var amdefine = false;
-if (typeof define !== 'function')
-    var define = require('amdefine')(module, require),
-        amdefine = true;
+if (typeof define !== "function")
+    var define = require("amdefine")(module, require);
 
-define(function (require, exports, module) {
+define(function () {
 
     var ColorContrastChecker = function() {};
 
@@ -28,10 +26,10 @@ define(function (require, exports, module) {
         fontSize: 14,
         rgbClass : {
             toString: function() {
-                return '<r: ' + this.r +
-                    ' g: ' + this.g +
-                    ' b: ' + this.b +
-                    ' >';
+                return "<r: " + this.r +
+                    " g: " + this.g +
+                    " b: " + this.b +
+                    " >";
             }
         },
         isValidSixDigitColorCode: function (hex){
@@ -46,10 +44,10 @@ define(function (require, exports, module) {
             return this.isValidSixDigitColorCode(hex) || this.isValidThreeDigitColorCode(hex);
         },
         isValidRatio : function (ratio){
-            return (typeof ratio === 'number')
+            return (typeof ratio === "number");
         },
         convertColorToSixDigit: function (hex) {
-          return '#' + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3];
+            return "#" + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3];
         },
         hexToLuminance: function (color) {
             if (!this.isValidColorCode(color)) {
@@ -57,7 +55,7 @@ define(function (require, exports, module) {
             }
 
             if (this.isValidThreeDigitColorCode(color)) {
-              color = this.convertColorToSixDigit(color);
+                color = this.convertColorToSixDigit(color);
             }
 
             color = this.getRGBFromHex(color);
@@ -67,7 +65,7 @@ define(function (require, exports, module) {
             return this.calculateLuminance(LRGB);
         },
         check: function (colorA, colorB, fontSize, customRatio) {
-            if (typeof fontSize !== 'undefined') {
+            if (typeof fontSize !== "undefined") {
                 this.fontSize = fontSize;
             }
 
@@ -79,7 +77,7 @@ define(function (require, exports, module) {
             var l2 = this.hexToLuminance(colorB); /* lower value */
             var contrastRatio = this.getContrastRatio(l1, l2);
 
-            if (typeof customRatio !== 'undefined') {
+            if (typeof customRatio !== "undefined") {
                 if (!this.isValidRatio(customRatio)) {
                     return false;
                 }
@@ -94,7 +92,7 @@ define(function (require, exports, module) {
 
             for (var i in pairs) {
                 var pair = pairs[i];
-                if (typeof pair.fontSize !== 'undefined') {
+                if (typeof pair.fontSize !== "undefined") {
                     results.push(
                         this.check(
                             pair.colorA,
@@ -138,8 +136,8 @@ define(function (require, exports, module) {
                 gVal,
                 bVal;
 
-            if (typeof color !== 'string') {
-                throw new Error('must use string');
+            if (typeof color !== "string") {
+                throw new Error("must use string");
             }
 
             rVal = parseInt(color.slice(1, 3), 16);
@@ -205,9 +203,9 @@ define(function (require, exports, module) {
 
             var resultsClass = {
                 toString: function() {
-                    return '< WCAG-AA: ' + ((this.WCAG_AA) ? 'pass' : 'fail') +
-                        ' WCAG-AAA: ' + ((this.WCAG_AAA) ? 'pass' : 'fail') +
-                        ' >';
+                    return "< WCAG-AA: " + ((this.WCAG_AA) ? "pass" : "fail") +
+                        " WCAG-AAA: " + ((this.WCAG_AAA) ? "pass" : "fail") +
+                        " >";
                 }
             };
             var WCAG_REQ_RATIO_AA_LG = 3.0,
@@ -233,12 +231,12 @@ define(function (require, exports, module) {
 
             var resultsClass = {
                 toString: function() {
-                    return '< Custom Ratio: ' + ((this.customRatio) ? 'pass' : 'fail') +
-                        '  >';
+                    return "< Custom Ratio: " + ((this.customRatio) ? "pass" : "fail") +
+                        "  >";
                 }
             };
 
-            var results = Object.create(resultsClass)
+            var results = Object.create(resultsClass);
 
             results.customRatio = (inputRatio >= checkRatio);
             return results;
