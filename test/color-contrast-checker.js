@@ -55,6 +55,23 @@ describe('Supported Color Code Lengths', function() {
   });
 });
 
+describe('Supported Custom Ratio Inputs', function() {
+  it('should accept an integer', function() {
+    var result = ccc.isValidRatio(1);
+    expect(result).to.be.true;
+  });
+
+  it('should accept a float', function() {
+    var result = ccc.isValidRatio(3.2);
+    expect(result).to.be.true;
+  });
+
+  it('should reject a string', function() {
+    var result = ccc.isValidRatio("3.2");
+    expect(result).to.be.false;
+  });
+});
+
 describe('Convert Color from 3 digit to 6 digit', function() {
   it('should convert 3 digit color to 6 digit', function() {
     var result = ccc.convertColorToSixDigit("#FFF");
@@ -118,6 +135,22 @@ describe('Basic Validation for LevelAAA', function() {
   });
 });
 
+describe('Basic Validation for Custom Ratio', function() {
+  it('should return true when contrast is valid for three digit color codes', function() {
+   var result = ccc.isLevelCustom("#FFF", "#000", 14, 5);
+   expect(result).to.be.true;
+ });
+
+ it('should return true when contrast is valid', function() {
+   var result = ccc.isLevelCustom("#FFFFFF", "#000000", 14, 5);
+   expect(result).to.be.true;
+ });
+
+ it('should return false when contrast is invalid', function() {
+   var result = ccc.isLevelCustom("#000000", "#000000", 14, 5);
+   expect(result).to.be.false;
+ });
+});
 
 describe('Six Digit Pair Validation for LevelAAA', function() {
   var pairs = [
@@ -236,11 +269,60 @@ describe('Three Digit Pair Validation for LevelAAA', function() {
      }
      return objectsAreSame;
   }
-
   it('should return the expectedResults for checkPairs', function() {
     var results = ccc.checkPairs(pairs);
     expect(results).to.be.an('array');
     expect(results).to.have.lengthOf(6);
+    expect(objectsAreSame(results, expectedResults)).to.be.true;
+  }); 
+});
+
+  describe('Six Digit Pair Validation for Custom Ratio', function() {
+    var pairs = [
+        {
+            'colorA': '#000000',
+            'colorB': '#000000',  // This should fail
+            'fontSize': 14
+        },
+        {
+            'colorA': '#000000',
+            'colorB': '#FFFFFF',  // This should pass
+            'fontSize': 14
+        },
+        {
+            'colorA': '#000000',
+            'colorB': '#848484',  // This should pass
+            'fontSize': 14
+        },
+        {
+            'colorA': '#000000',
+            'colorB': '#656565',  // This should fail
+            'fontSize': 14
+        }
+    ];
+  
+  
+    var expectedResults = [ 
+      { customRatio: false },
+      { customRatio: true },
+      { customRatio: false },
+      { customRatio: false } ];
+  
+    function objectsAreSame(x, y) {
+       var objectsAreSame = true;
+       for(var propertyName in x) {
+          if(x[propertyName].customRatio !== y[propertyName].customRatio) {
+             objectsAreSame = false;
+             break;
+          }
+       }
+       return objectsAreSame;
+    }
+
+  it('should return the expectedResults for checkPairs', function() {
+    var results = ccc.checkPairs(pairs, 5.6);
+    expect(results).to.be.an('array');
+    expect(results).to.have.lengthOf(4);
     expect(objectsAreSame(results, expectedResults)).to.be.true;
   }); 
 });
