@@ -196,16 +196,17 @@ describe('Six Digit Pair Validation for LevelAAA', function() {
     { WCAG_AA: false, WCAG_AAA: false } ];
 
   function objectsAreSame(x, y) {
-     var objectsAreSame = true;
-     for(var propertyName in x) {
-        if(x[propertyName].WCAG_AA !== y[propertyName].WCAG_AA
-           && x[propertyName].WCAG_AAA !== y[propertyName].WCAG_AAA) {
-           objectsAreSame = false;
-           break;
-        }
-     }
-     return objectsAreSame;
-  }
+    var objectsAreSame = true;
+    x.forEach((element, index) => {
+      if (element.WCAG_AA !== y[index].WCAG_AA) {
+        objectsAreSame = false
+      }
+      if (element.WCAG_AAA !== y[index].WCAG_AAA) {
+        objectsAreSame = false
+      }
+    });
+    return objectsAreSame;
+    }
 
   it('should return the expectedResults for checkPairs', function() {
     var results = ccc.checkPairs(pairs);
@@ -259,16 +260,17 @@ describe('Three Digit Pair Validation for LevelAAA', function() {
     { WCAG_AA: false, WCAG_AAA: false } ];
 
   function objectsAreSame(x, y) {
-     var objectsAreSame = true;
-     for(var propertyName in x) {
-        if(x[propertyName].WCAG_AA !== y[propertyName].WCAG_AA
-           && x[propertyName].WCAG_AAA !== y[propertyName].WCAG_AAA) {
-           objectsAreSame = false;
-           break;
-        }
-     }
-     return objectsAreSame;
-  }
+    var objectsAreSame = true;
+    x.forEach((element, index) => {
+      if (element.WCAG_AA !== y[index].WCAG_AA) {
+        objectsAreSame = false
+      }
+      if (element.WCAG_AAA !== y[index].WCAG_AAA) {
+        objectsAreSame = false
+      }
+    });
+    return objectsAreSame;
+   }
   it('should return the expectedResults for checkPairs', function() {
     var results = ccc.checkPairs(pairs);
     expect(results).to.be.an('array');
@@ -305,18 +307,20 @@ describe('Three Digit Pair Validation for LevelAAA', function() {
     var expectedResults = [ 
       { customRatio: false },
       { customRatio: true },
-      { customRatio: false },
+      { customRatio: true },
       { customRatio: false } ];
   
     function objectsAreSame(x, y) {
-       var objectsAreSame = true;
-       for(var propertyName in x) {
-          if(x[propertyName].customRatio !== y[propertyName].customRatio) {
-             objectsAreSame = false;
-             break;
-          }
-       }
-       return objectsAreSame;
+      var objectsAreSame = true;
+      x.forEach((element, index) => {
+        if (element.WCAG_AA !== y[index].WCAG_AA) {
+          objectsAreSame = false
+        }
+        if (element.WCAG_AAA !== y[index].WCAG_AAA) {
+          objectsAreSame = false
+        }
+      });
+      return objectsAreSame;
     }
 
   it('should return the expectedResults for checkPairs', function() {
