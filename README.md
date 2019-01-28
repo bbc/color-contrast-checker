@@ -2,12 +2,12 @@
 
 An accessibility checker tool for validating the color contrast based on WCAG 2.0 standard.
 
-The formula (L1/L2) for contrast is based on [ISO-9241-3] and [ANSI-HFES-100-1988] standards as described here : 
+The formula (L1/L2) for contrast is based on [ISO-9241-3] and [ANSI-HFES-100-1988] standards as described here :
 
 http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
 http://www.w3.org/TR/WCAG20/#contrast-ratiodef
 
-It also supports shorthand color codes e.g #FFF or #000 etc. 
+It also supports shorthand color codes e.g #FFF or #000 etc.
 
 https://www.w3.org/TR/2001/WD-css3-color-20010305#colorunits
 
@@ -25,7 +25,7 @@ or using package.json
   ..
   "devDependencies": {
     ..
-    "color-contrast-checker": "1.4.0"
+    "color-contrast-checker": "1.5.0"
   }
 }
 ```
@@ -55,10 +55,11 @@ var ccc = new ColorContrastChecker();
 
 var color1 = "#FFFFFF";
 var color2 = "#000000;
+var customRatio = 5.7;
 
 // No need for font size, now that we are using a custom ratio.
 // This is because we are no longer checking against WCAG requirements.
-if (ccc.isLevelCustom(color1, color2, 5.7)) {
+if (ccc.isLevelCustom(color1, color2, customRatio)) {
     alert("Above given ratio");
 } else {
     alert("Invalid Contrast");
