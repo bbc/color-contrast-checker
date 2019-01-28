@@ -19,6 +19,11 @@ describe('Three Digit Color Code Lengths', function() {
     var result = ccc.isValidThreeDigitColorCode("#FFFF");
     expect(result).to.be.false;
   });
+
+  it('should reject 6 digit color code', function() {
+    var result = ccc.isValidThreeDigitColorCode("#FFFFFF");
+    expect(result).to.be.false;
+  });
 });
 
 describe('Six Digit Color Code Lengths', function() {
@@ -34,6 +39,11 @@ describe('Six Digit Color Code Lengths', function() {
 
   it('should reject 7 digit color code', function() {
     var result = ccc.isValidSixDigitColorCode("#FFFFFFF");
+    expect(result).to.be.false;
+  });
+
+  it('should reject 3 digit color code', function() {
+    var result = ccc.isValidSixDigitColorCode("#FFF");
     expect(result).to.be.false;
   });
 });
@@ -92,12 +102,12 @@ describe('Convert Hex to Luminance', function() {
 
   it('should convert blue color luminance value', function() {
     var result = ccc.hexToLuminance("#0000FF");
-    expect(result).to.equal(0);
+    expect(result).to.equal(0.0722);
   });
 
    it('should convert yellow color luminance value', function() {
     var result = ccc.hexToLuminance("#ffff00");
-    expect(result).to.equal(1);
+    expect(result).to.equal(0.9278);
   });
 });
 
@@ -137,17 +147,17 @@ describe('Basic Validation for LevelAAA', function() {
 
 describe('Basic Validation for Custom Ratio', function() {
   it('should return true when contrast is valid for three digit color codes', function() {
-   var result = ccc.isLevelCustom("#FFF", "#000", 14, 5);
+   var result = ccc.isLevelCustom("#FFF", "#000", 5);
    expect(result).to.be.true;
  });
 
  it('should return true when contrast is valid', function() {
-   var result = ccc.isLevelCustom("#FFFFFF", "#000000", 14, 5);
+   var result = ccc.isLevelCustom("#FFFFFF", "#000000", 5);
    expect(result).to.be.true;
  });
 
  it('should return false when contrast is invalid', function() {
-   var result = ccc.isLevelCustom("#000000", "#000000", 14, 5);
+   var result = ccc.isLevelCustom("#000000", "#000000", 5);
    expect(result).to.be.false;
  });
 });
@@ -210,7 +220,6 @@ describe('Six Digit Pair Validation for LevelAAA', function() {
 
   it('should return the expectedResults for checkPairs', function() {
     var results = ccc.checkPairs(pairs);
-    console.log(results, "\n", expectedResults);
     expect(results).to.be.an('array');
     expect(results).to.have.lengthOf(6);
     expect(objectsAreSame(results, expectedResults)).to.be.true;
