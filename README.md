@@ -34,6 +34,7 @@ Then do `npm install`
 Usage:
 -----
 
+To check specific WCAG levels
 ```
 var ccc = new ColorContrastChecker();
 
@@ -42,6 +43,22 @@ var color2 = "#000000;
 
 if (ccc.isLevelAA(color1, color2, 14)) {
     alert("Valid Level AA");
+} else {
+    alert("Invalid Contrast");
+}
+
+```
+
+To check custom ratios
+```
+var ccc = new ColorContrastChecker();
+
+var color1 = "#FFFFFF";
+var color2 = "#000000;
+
+// No need for font size, as this is no longer a WCAG req
+if (ccc.isLevelCustom(color1, color2, 5.7)) {
+    alert("Above given ratio");
 } else {
     alert("Invalid Contrast");
 }
