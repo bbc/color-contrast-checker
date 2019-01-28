@@ -166,17 +166,17 @@ describe('Six Digit Pair Validation for LevelAAA', function() {
       },
       {
           'colorA': '#000000',
-          'colorB': '#848484',  //AAA should fail
+          'colorB': '#998899',  //AAA should fail
           'fontSize': 14
       },
       {
           'colorA': '#000000',
-          'colorB': '#848484',  //All should pass (because of font)
+          'colorB': '#998899',  //All should pass (because of font)
           'fontSize': 19
       },
       {
           'colorA': '#000000',
-          'colorB': '#757575',  //AA should pass AAA should fail
+          'colorB': '#887788',  //AA should pass AAA should fail
           'fontSize': 14
       },
       {
@@ -210,6 +210,7 @@ describe('Six Digit Pair Validation for LevelAAA', function() {
 
   it('should return the expectedResults for checkPairs', function() {
     var results = ccc.checkPairs(pairs);
+    console.log(results, "\n", expectedResults);
     expect(results).to.be.an('array');
     expect(results).to.have.lengthOf(6);
     expect(objectsAreSame(results, expectedResults)).to.be.true;
@@ -230,17 +231,17 @@ describe('Three Digit Pair Validation for LevelAAA', function() {
       },
       {
           'colorA': '#000',
-          'colorB': '#848',  //AAA should fail
+          'colorB': '#989',  //AAA should fail
           'fontSize': 14
       },
       {
           'colorA': '#000',
-          'colorB': '#848',  //All should pass (because of font)
+          'colorB': '#989',  //All should pass (because of font)
           'fontSize': 19
       },
       {
           'colorA': '#000',
-          'colorB': '#757',  //AA should pass AAA should fail
+          'colorB': '#878',  //AA should pass AAA should fail
           'fontSize': 14
       },
       {
@@ -293,7 +294,7 @@ describe('Three Digit Pair Validation for LevelAAA', function() {
         },
         {
             'colorA': '#000000',
-            'colorB': '#848484',  // This should pass
+            'colorB': '#998899',  // This should pass
             'fontSize': 14
         },
         {
