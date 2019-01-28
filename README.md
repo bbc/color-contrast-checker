@@ -56,7 +56,8 @@ var ccc = new ColorContrastChecker();
 var color1 = "#FFFFFF";
 var color2 = "#000000;
 
-// No need for font size, as this is no longer a WCAG req
+// No need for font size, now that we are using a custom ratio.
+// This is because we are no longer checking against WCAG requirements.
 if (ccc.isLevelCustom(color1, color2, 5.7)) {
     alert("Above given ratio");
 } else {
