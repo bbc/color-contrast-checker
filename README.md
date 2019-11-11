@@ -1,11 +1,12 @@
 # Color Contast Checker
 
-An accessibility checker tool for validating the color contrast based on WCAG 2.0 standard.
+An accessibility checker tool for validating the color contrast based on WCAG 2.0 and WCAG 2.1 standard.
 
 The formula (L1/L2) for contrast is based on [ISO-9241-3] and [ANSI-HFES-100-1988] standards as described here :
 
 http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
 http://www.w3.org/TR/WCAG20/#contrast-ratiodef
+https://www.w3.org/TR/WCAG21/#contrast-minimum
 
 It also supports shorthand color codes e.g #FFF or #000 etc.
 
