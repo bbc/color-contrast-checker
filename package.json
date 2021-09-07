@@ -1,11 +1,8 @@
 {
   "name": "color-contrast-checker",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "This is an accessibility validator based on WCAG 2.0 standard for checking the color contrast.",
   "main": "src/color-contrast-checker.js",
-  "dependencies": {
-    "amdefine": ">=0.2.0"
-  },
   "directories": {
     "example": "example"
   },
