@@ -114,7 +114,6 @@ ColorContrastChecker.prototype = {
         return (0.2126 * lRGB.r) + (0.7152 * lRGB.g) + (0.0722 * lRGB.b);
     },
     isLevelAA : function(colorA, colorB, fontSize) {
-        console.log("weibu")
         var result = this.check(colorA, colorB, fontSize);
         return result.WCAG_AA;
     },
