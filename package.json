@@ -57,6 +57,6 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "eslint": "^5.12.1",
-    "mocha": "^5.2.0"
+    "mocha": "^10.2.0"
   }
 }
