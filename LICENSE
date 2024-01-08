@@ -1,5 +1,58 @@
 
-                                 Apache License
+      http://www.apache.org/licenses/using System;
+
+namespace PrimeChecker
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Enter a number to check if it is prime:");
+            int number = int.Parse(Console.ReadLine());
+            bool isPrime = IsPrime(number);
+            if (isPrime)
+            {
+                Console.WriteLine(number + " is a prime number.");
+            }
+            else
+            {
+                Console.WriteLine(number + " is not a prime number.");
+            }
+        }
+
+        // A method that returns true if a number is prime, and false otherwise
+        static bool IsPrime(int number)
+        {
+            // 1 is not a prime number
+            if (number == 1)
+            {
+                return false;
+            }
+            // 2 is the only even prime number
+            if (number == 2)
+            {
+                return true;
+            }
+            // Even numbers are not prime
+            if (number % 2 == 0)
+            {
+                return false;
+            }
+            // Check odd divisors from 3 to the square root of the number
+            int limit = (int)Math.Sqrt(number);
+            for (int i = 3; i <= limit; i += 2)
+            {
+                if (number % i == 0)
+                {
+                    return false;
+                }
+            }
+            // If no divisor found, the number is prime
+            return true;
+        }
+    }
+}
+Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
