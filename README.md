@@ -1,4 +1,4 @@
-# Color Contast Checker
+# Color Contrast Checker
 
 An accessibility checker tool for validating the color contrast based on WCAG 2.0 and WCAG 2.1 standard.
 
@@ -15,12 +15,12 @@ https://www.w3.org/TR/2001/WD-css3-color-20010305#colorunits
 Installation:
 ------------
 
-```
+```bash
 npm install color-contrast-checker
 ```
 or using package.json
 
-```
+```json
 {
   "name": "my-app",
   ..
@@ -36,11 +36,11 @@ Usage:
 -----
 
 To check specific WCAG levels
-```
-var ccc = new ColorContrastChecker();
+```javascript
+const ccc = new ColorContrastChecker();
 
-var color1 = "#FFFFFF";
-var color2 = "#000000;
+const color1 = "#FFFFFF";
+const color2 = "#000000";
 
 if (ccc.isLevelAA(color1, color2, 14)) {
     alert("Valid Level AA");
@@ -51,12 +51,12 @@ if (ccc.isLevelAA(color1, color2, 14)) {
 ```
 
 To check custom ratios
-```
-var ccc = new ColorContrastChecker();
+```javascript
+const ccc = new ColorContrastChecker();
 
-var color1 = "#FFFFFF";
-var color2 = "#000000;
-var customRatio = 5.7;
+const color1 = "#FFFFFF";
+const color2 = "#000000";
+const customRatio = 5.7;
 
 // No need for font size, now that we are using a custom ratio.
 // This is because we are no longer checking against WCAG requirements.
@@ -74,8 +74,8 @@ Advanced Usage:
 You can pass pairs and get results:
 
 
-```
-    var pairs = [
+```javascript
+    const pairs = [
         {
             'colorA': '#000000',
             'colorB': '#000000',  // All should fail
@@ -114,7 +114,7 @@ You can pass pairs and get results:
 
 The result will look like this:
 
-```
+```javascript
 [
     {
         'WCAG_AA' : false,
